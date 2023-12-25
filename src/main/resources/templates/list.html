@@ -45,7 +45,7 @@
 				<div class="row">
 					<div class="form-group col-3 m-2">
 						<label for="category">分類</label>
-						<select id="category" name="category" class="form-select col-2" th:value="${getForm.category}">
+						<select id="category" name="category" class="form-control" th:value="${getForm.category}">
 							<option></option>
 							<option value="1" th:selected="${getForm.category} == 1">仕事</option>
 							<option value="2" th:selected="${getForm.category} == 2">趣味</option>
@@ -81,10 +81,33 @@
 						<td th:text=${item.name}></td>
 						<td th:text=${item.title}></td>
 						<td>
-							<a class="btn btn-primary">詳細</a>
+							<a class="btn btn-primary" th:href="@{/diary/{id}(id=${item.id})}">詳細</a>
 						</td>
 						<td>
-							<button type="button" class="btn btn-danger">削除</button>
+							<form method="POST" th:action="@{/diary/delete}">
+								<input type="hidden" th:value="${item.id}" name="id">
+								<button type="button" class="btn btn-danger" data-bs-toggle="modal"
+									th:data-bs-target="'#id' + ${item.id}">削除</button>
+								<!-- Modal -->
+								<div class="modal fade" th:id="'id' + ${item.id}" role="dialog" tabindex="-1" aria-hidden="true">
+									<div class="modal-dialog" role="document">
+										<div class="modal-content">
+											<div class="modal-header">
+												<button type="button" class="btn-close" data-bs-dismiss="modal"
+													aria-label="Close"></button>
+											</div>
+											<div class="modal-body">
+												削除してもよろしいですか？
+											</div>
+											<div class="modal-footer">
+												<button type="submit" class="btn btn-danger">削除</button>
+												<button type="button" class="btn btn-secondary"
+													data-bs-dismiss="modal">閉じる</button>
+											</div>
+										</div>
+									</div>
+								</div>
+							</form>
 						</td>
 					</tr>
 				</tbody>
@@ -118,6 +141,5 @@
 		searching: false,
 		scrollY: 250
 	});
-</script>
-
+</script>    
 </html>
